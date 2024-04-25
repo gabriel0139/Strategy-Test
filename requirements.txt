@@ -1,0 +1,11 @@
+yfinance
+pandas
+matplotlib
+mplfinance
+ta
+streamlit
+numpy
+python-binance
+utils
+pandas_ta
+setuptools
