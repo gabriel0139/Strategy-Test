@@ -5,9 +5,13 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from binance.client import Client
-from api import *
+from dotenv import load_dotenv
+import os
 
-""" Coinbase API """
+# Coinbase API
+
+api_key = os.environ.get("api_key")
+api_secret = os.environ.get("api_secret")
 
 client = Client(api_key, api_secret)
 
@@ -314,22 +318,27 @@ avg = (Coff1 + Coff2 + Coff3 + Coff4 + Coff5) / 5
 long = avg > 0
 short = avg  < 0
 
-""" equivalent to..
-var Coff = 0
-if L 
-	Coff := 1
-if S 
-	Coff := -1
-"""
+# Plotting 
 
-""" plotting """
+cInterval = "1D"
+
+
 plt.figure(figsize=(14, 7))
 plt.plot(df.index, df['Close'], color="black")  # Ensure 'Close' is from df
 plt.yscale("log")
+
+# Adding custom title and legend
+plt.title(f"{symbol} ({cInterval}) from {start_str}")
+plt.legend(title="Legend")
+
+# Add x and y labels
+plt.xlabel("Date")
+plt.ylabel("Price")
 
 plt.fill_between(df.index, df['Close'], where=long, color="#00FFA6", alpha=0.3)
 plt.fill_between(df.index, df['Close'], where=short, color="#FF0070", alpha=0.3)
 
 
-plt.show()
-# st.pyplot(plt)  # streamlit plot
+# plt.show()
+""" Strategy Plot """
+st.pyplot(plt)  # streamlit plot
